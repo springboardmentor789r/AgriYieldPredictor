@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+.env
+venv/
+.env/
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node / React
+react_frontend/node_modules/
+react_frontend/build/
+
+# OS-specific
+.DS_Store
+Thumbs.db
