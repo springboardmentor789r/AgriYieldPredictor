@@ -1,0 +1,96 @@
+/* full-page background */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  /* 👇 use your own image here */
+  background: url('https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')
+    no-repeat center center fixed;
+  background-size: cover;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* the form container */
+form {
+  background-color: rgba(255, 255, 255, 0.9); /* translucent card */
+  border: 2px solid #95d5b2;
+  border-radius: 15px;
+  padding: 25px 30px;
+  width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* labels */
+form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #2d6a4f;
+}
+
+/* inputs & selects */
+form input,
+form select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #b7e4c7;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  background-color: #f6fff8;
+  transition: border 0.3s ease;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #40916c;
+}
+
+/* submit button */
+form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #40916c;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background-color: #2d6a4f;
+}
+
+/* prediction box */
+.prediction-box {
+  margin-top: 15px;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  color: #2d6a4f;
+  background-color: #d8f3dc;
+  border: 1px solid #95d5b2;
+  border-radius: 10px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
