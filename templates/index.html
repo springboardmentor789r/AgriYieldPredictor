@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌱 Crop Yield Prediction</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body style="
+  margin:0;
+  font-family: Arial, sans-serif;
+  background-image: url('data:image/jpeg;base64,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');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;">
+  <!-- Navbar -->
+  <nav>
+    <h1>🌿 CropCare</h1>
+  </nav>
+
+  <div class="container">
+    <form id="yieldForm" class="form-box">
+      <h1>🌱 Crop Yield Prediction</h1>
+
+      <label for="cropType">Crop Type</label>
+      <select id="cropType" name="cropType" required>
+        <option value="">Select Crop</option>
+        <option value="Wheat">Wheat</option>
+        <option value="Rice">Rice</option>
+        <option value="Maize">Maize</option>
+        <option value="Sugarcane">Sugarcane</option>
+      </select>
+
+      <label for="soilType">Soil Type</label>
+      <select id="soilType" name="soilType" required>
+        <option value="">Select Soil</option>
+        <option value="Clay">Clay</option>
+        <option value="Loamy">Loamy</option>
+        <option value="Sandy">Sandy</option>
+      </select>
+
+      <label for="soilQuality">Soil Quality</label>
+      <input type="text" id="soilQuality" name="soilQuality" placeholder="Good / Medium / Poor" required>
+
+      <label for="n">Nitrogen (N)</label>
+      <input type="number" id="n" name="n" required>
+
+      <label for="p">Phosphorus (P)</label>
+      <input type="number" id="p" name="p" required>
+
+      <label for="k">Potassium (K)</label>
+      <input type="number" id="k" name="k" required>
+
+      <label for="temperature">Temperature (°C)</label>
+      <input type="number" step="0.1" id="temperature" name="temperature" required>
+
+      <label for="humidity">Humidity (%)</label>
+      <input type="number" step="0.1" id="humidity" name="humidity" required>
+
+      <label for="ph">Soil pH</label>
+      <input type="number" step="0.1" id="ph" name="ph" required>
+
+      <label for="windSpeed">Wind Speed</label>
+      <input type="number" step="0.1" id="windSpeed" name="windSpeed" required>
+
+      <button type="submit">🌿 Predict</button>
+    </form>
+
+    <div id="resultBox" class="result-box">
+      <h2>Predicted Crop Yield:</h2>
+      <p id="predictionValue">--</p>
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
