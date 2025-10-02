@@ -1,4 +1,4 @@
-/* Full screen, no scroll */
+/* Full screen, no scroll on body */
 html, body, #root {
   margin: 0;
   padding: 0;
@@ -6,11 +6,11 @@ html, body, #root {
   width: 100%;
   background-color: grey;
   color: white;
-  overflow: hidden; /* Prevent scroll */
   font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
-/* Container */
+/* Main container */
 .form-container {
   height: 100vh;
   width: 100vw;
@@ -26,20 +26,32 @@ html, body, #root {
 h1 {
   text-align: center;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  font-size: 20px;   /* smaller */
+  font-weight: bold;
   color: white;
 }
 
-/* Form box */
-.crop-form {
+/* Card container (form + results) */
+.card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
   width: 100%;
-  max-width: 700px;
-  background-color: #2c2c2c;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
+  max-width: 1100px;
+  height: 80vh;         /* control height */
   box-sizing: border-box;
-  overflow-y: auto; /* in case of too much data */
+}
+
+/* Individual card box */
+.box {
+  flex: 1;
+  background-color: #2c2c2c;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
+  overflow-y: auto;   /* scroll if too much data */
 }
 
 /* Labels */
@@ -54,7 +66,7 @@ label {
 input,
 select {
   width: 100%;
-  padding: 6px; /* smaller input */
+  padding: 6px;
   margin-bottom: 12px;
   box-sizing: border-box;
   border: none;
@@ -67,20 +79,40 @@ select {
 
 /* Button */
 button {
-  display: block;
-  width: 100%;
-  padding: 10px;
+  display: inline-block;
+  min-width: 120px;
+  padding: 8px 16px;
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   border-radius: 6px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+  transition: all 0.2s ease-in-out;
+  margin-top: 10px;
 }
 
 button:hover {
   background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 14px rgba(0,0,0,0.6);
 }
 
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
 
+th, td {
+  padding: 8px 12px;
+  text-align: center;
+  border-bottom: 1px solid #555;
+}
+
+th {
+  background-color: #3a3a3a;
+  font-weight: bold;
+}
