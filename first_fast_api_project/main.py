@@ -3,12 +3,16 @@ from models.yieldprediction import YieldPrediction,Item
 from typing import List
 from utils import get_crop_type, get_soil_type, get_weather_condition
 from fastapi.middleware.cors import CORSMiddleware
+from statsmodels.tsa.statespace.sarimax import SARIMAXResults
 from fastapi import HTTPException
+import numpy as np  
 import os
 import json
 import pandas as pd
 import joblib
 pipeline=joblib.load("crop_yield_pipeline.pkl")
+
+sarimax_model = SARIMAXResults.load("sarimax_model2.pkl")
 app = FastAPI()
 
 app.add_middleware(
@@ -101,3 +105,53 @@ def predict(yieldPrediction: YieldPrediction):
     print("Sample Data:", sample)
     prediction = pipeline.predict(sample)[0]
     return {"predicted_yield": float(prediction)}
+
+def generate_synthetic_exog(df: pd.DataFrame, steps: int):
+    exog_columns = df.drop(columns=["Crop_Yield"]).columns.tolist()
+    historical_exog = df[exog_columns].values
+    n_features = historical_exog.shape[1]
+    synthetic_data = []
+
+    for _ in range(steps):
+        base_row = historical_exog[np.random.randint(0, len(historical_exog))]
+        noise = np.random.normal(0, 0.02, size=n_features)
+        if np.random.rand() < 0.2:
+            noise += np.random.normal(0, 0.1, size=n_features)
+        synthetic_row = base_row + noise
+        synthetic_data.append(synthetic_row)
+
+    last_date = df.index[-1]
+    future_dates = pd.date_range(start=last_date + pd.Timedelta(days=1),
+                                 periods=steps, freq="D")
+    return pd.DataFrame(synthetic_data, columns=exog_columns, index=future_dates)
+
+# ----------------------------
+# Forecast endpoint
+# ----------------------------
+@app.get("/forecast")
+def forecast(steps: int = 10):
+    try:
+        # Load dataset and preprocess
+        df = pd.read_csv("crop_yield_dataset.csv", parse_dates=["Date"])
+        df['Date'] = pd.to_datetime(df['Date'])
+        df.set_index("Date", inplace=True)
+        df = df.select_dtypes(include="number")
+        df = df.groupby(df.index).mean()
+        df = df.asfreq("D").interpolate(method="time")
+
+        # Generate synthetic exogenous data
+        future_exog = generate_synthetic_exog(df, steps)
+
+        # Forecast using SARIMAX
+        forecast_res = sarimax_model.get_forecast(steps=steps, exog=future_exog)
+        forecast_mean = forecast_res.predicted_mean.tolist()
+        conf_int = forecast_res.conf_int().values.tolist()
+
+        return {
+            "steps": steps,
+            "forecast": forecast_mean,
+            "confidence_interval": conf_int
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Forecast error: {str(e)}")
