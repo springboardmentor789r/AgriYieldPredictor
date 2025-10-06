@@ -7,6 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const API_URL = "http://127.0.0.1:8000";
 
+// ---------------- Home Route ---------------- 
 app.get("/", async (req, res) => {
   try {
     const crops = (await axios.get(`${API_URL}/crop_types`)).data.crop_types;
