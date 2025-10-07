@@ -7,3 +7,7 @@ class YieldPrediction(BaseModel):
     soil_type: str           # e.g., Sandy, Loamy, Clay
     crop_type: str           # e.g., Rice, Wheat, Corn
     weather_condition: str   # e.g., Sunny, Rainy, Cloudy
+
+    
+class DatePrediction(BaseModel):
+    date: str  # ISO format: "YYYY-MM-DD"
