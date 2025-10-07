@@ -170,4 +170,3 @@ Developed for **Infosys Springboard AI Internship Project**.
 
 ---
 
-Would you like me to make it more **GitHub-optimized** (badges, quick-start code block, visual architecture diagram, etc.) for a professional profile-ready README?
