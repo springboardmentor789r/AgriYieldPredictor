@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+.env
+ECHO is on.
+# Node / React
+node_modules/
+build/
+dist/
+ECHO is on.
+# Others
+*.log

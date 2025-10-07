@@ -1,0 +1,161 @@
+.container-box {
+ width: 100%;
+ max-width: 500px;
+ background-color: #a3aca6; /* white background */
+ padding: 40px;
+ border-radius: 10px;
+ box-shadow: 0 5px 15px rgba(119, 121, 119, 0.25);
+}
+
+.tabs {
+ display: flex;
+ margin-bottom: 15px;
+}
+
+.tabs button {
+ flex: 1;
+ padding: 10px;
+ border: none;
+ background: transparent;
+ cursor: pointer;
+ /* 1. Default tab text color set to green */
+ color: #398f5bff; /* A nice shade of green for both inactive tabs */
+}
+
+.tabs .active-tab {
+ font-weight: bold;
+}
+
+/* --- Prediction Tab Styles --- */
+
+.prediction-tab {
+ border-bottom: 1px solid #ccc;
+}
+
+.prediction-tab.active-tab {
+ /* Change the border color to green for the active underline */
+ border-bottom: 3px solid #238829;
+ /* Change the active text color to a darker green */
+  color: #238829;
+}
+
+/* --- Forecast Tab Styles --- */
+
+.forecast-tab {
+ border-bottom: 1px solid #ccc;
+}
+
+.forecast-tab.active-tab {
+ /* Change the border color to green for the active underline */
+ border-bottom: 3px solid #238829;
+ /* Change the active text color to a darker green */
+ color: #238829;
+}
+
+
+.title-prediction {
+ text-align: center;
+ color: #398f5bff;
+ font-size: 26px;
+ margin-bottom: 30px;
+}
+
+.title-forecast {
+ text-align: center;
+ font-size: 26px;
+ margin: 6px 0;
+ color: rgb(232, 6, 6);
+}
+
+.form-column {
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+}
+
+.btn-submit {
+ padding: 10px;
+ background: #31b738ff;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ font-size: 16px;
+ cursor: pointer;
+}
+
+.form-error {
+ margin-top: 10px;
+ padding: 6px;
+ text-align: center;
+ background: #efe6eaff;
+ color: #f7260aff;
+ border-radius: 5px;
+ border: 1px solid #bf1717ff;
+ font-weight: bold;
+}
+
+.result-box {
+ margin-top: 15px;
+ text-align: center;
+ background: #f1f8f1ff;
+ padding: 10px;
+ border-radius: 7px;
+ border: 1px solid #edefedff;
+}
+
+/* Forecast */
+.forecast-form {
+ display: flex;
+ justify-content: center;
+ gap: 20px;
+ margin-top: 35px;
+}
+
+.forecast-input {
+ padding: 8px;
+ border: 2px solid #51be3bff;
+ border-radius: 5px;
+ font-size: 16px;
+ background-color: #fffde7;
+}
+
+.btn-forecast {
+ padding: 10px;
+ background: #238829ff;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+ font-size: 16px;
+}
+
+.forecast-error {
+ margin-top: 8px;
+ color: red;
+ font-size: 14px;
+}
+
+.forecast-table-container {
+ margin-top: 12px;
+ overflow-x: auto;;
+}
+
+.forecast-table {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 15px;
+}
+
+.forecast-table th,
+.forecast-table td {
+ padding: 6px;
+ border-bottom: 1px solid #ddd;
+}
+
+.even-row {
+ background: #fff;
+}
+
+.odd-row {
+ background: #f9f9f9;
+}
