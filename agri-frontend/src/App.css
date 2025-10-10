@@ -1,0 +1,367 @@
+/* ========= Agri Yield Predictor — Futuristic UI ========== */
+
+/* Color tokens */
+:root{
+  --bg-1: #051022;
+  --bg-2: #081227;
+  --panel: rgba(255,255,255,0.04);
+  --panel-2: rgba(255,255,255,0.02);
+  --glass-border: rgba(255,255,255,0.06);
+  --muted: rgba(200,220,255,0.45);
+  --accent-a: #00ffd1;   /* teal */
+  --accent-b: #7a32ff;   /* purple */
+  --accent-c: #4ff09b;   /* green */
+  --card-shadow: 0 10px 30px rgba(2,8,22,0.6);
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --text: #eaf6ff;
+}
+
+/* Reset / base */
+* { box-sizing: border-box; }
+html,body,#root { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #eaf6ff;
+  line-height: 1.4;
+  min-height: 100vh;
+
+  /* 🔵 Full-page blue gradient (smooth infinite scroll) */
+  background: linear-gradient(
+      180deg,
+      #07132a 0%,
+      #081b3a 25%,
+      #0a2148 50%,
+      #0a1f40 75%,
+      #081833 100%
+    ),
+    radial-gradient(
+      900px 600px at 50% 0%,
+      rgba(122, 50, 255, 0.1),
+      transparent 70%
+    ),
+    radial-gradient(
+      900px 600px at 50% 100%,
+      rgba(0, 255, 209, 0.08),
+      transparent 80%
+    );
+
+  background-repeat: repeat-y;         /* ✅ extends endlessly */
+  background-size: 100% auto;
+  background-attachment: scroll;       /* ✅ scrolls with content */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 36px;
+}
+
+/* 💡 Ensures both html and body share same gradient */
+html {
+  background: linear-gradient(
+    180deg,
+    #07132a 0%,
+    #081b3a 25%,
+    #0a2148 50%,
+    #0a1f40 75%,
+    #081833 100%
+  );
+}
+
+
+
+/* subtle background noise for depth */
+body::before{
+  content:"";
+  position: fixed;
+  inset:0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.02"/></svg>');
+  mix-blend-mode: overlay;
+  pointer-events:none;
+  z-index:0;
+  transform: scale(1.05);
+  opacity: 0.8;
+}
+
+/* Page layout */
+.dashboard-container{
+  max-width: 1180px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header */
+.header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom: 22px;
+}
+.main-title{
+  font-size: 36px;
+  margin: 0;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: #f8fbff;
+  text-shadow:
+    0 6px 20px rgba(122,50,255,0.08),
+    0 2px 6px rgba(0,255,209,0.03);
+}
+.subtitle{
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  gap: 12px;
+  margin: 18px 0;
+  z-index:3;
+}
+.tab-btn{
+  border: none;
+  padding: 10px 16px;
+  background: transparent;
+  color: #bcd9ff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all .18s ease;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.02);
+}
+.tab-btn:hover{ transform: translateY(-2px); }
+.tab-btn.active{
+  background: linear-gradient(90deg, rgba(122,50,255,0.12), rgba(0,255,209,0.06));
+  color: #eafcff;
+  box-shadow: 0 12px 30px rgba(122,50,255,0.08);
+  border: 1px solid rgba(122,50,255,0.12);
+}
+.tabs::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(122,50,255,0.4), rgba(0,255,209,0.4));
+  margin-top: 10px;
+  border-radius: 4px;
+  opacity: 0.4;
+}
+
+
+/* Card container */
+.card{
+  display:block;
+  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px) saturate(120%);
+}
+
+/* small glass modifier */
+.glass{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+/* form layout */
+.form{ width:100%; }
+.inputs-row{
+  display:flex;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.field{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.field label{
+  font-size:12px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* inputs */
+input.neon, select.neon{
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: var(--text);
+  outline: none;
+  font-size:14px;
+  box-shadow: 0 8px 22px rgba(2,8,20,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  transition: box-shadow .15s, transform .12s, border-color .12s;
+}
+input.neon::placeholder{ color: rgba(200,220,255,0.14); }
+input.neon:focus, select.neon:focus{
+  border-color: rgba(122,50,255,0.28);
+  box-shadow: 0 12px 30px rgba(122,50,255,0.08), 0 0 40px rgba(0,255,209,0.03);
+  transform: translateY(-3px);
+}
+
+/* controls */
+.btn{
+  padding: 11px 18px;
+  border-radius: 12px;
+  font-weight:700;
+  cursor: pointer;
+  border: none;
+  letter-spacing: 0.02em;
+}
+.btn.primary{
+  margin-top: 16px;
+  background: linear-gradient(90deg, var(--accent-b), var(--accent-a));
+  color: #031018;
+  box-shadow: 0 14px 40px rgba(122,50,255,0.12);
+  transition: transform .12s ease, filter .12s ease;
+}
+.btn.primary:hover{ transform: translateY(-3px) scale(1.01); }
+.btn.primary:active{ transform: translateY(1px); }
+.btn[disabled]{ opacity: 0.72; cursor: not-allowed; transform: none; filter: saturate(.8); }
+
+/* small hint */
+.hint{ margin-left:auto; color: var(--muted); font-size:12px; }
+
+/* result card */
+.result-card{
+  margin-top: 18px;
+  border-radius: 12px;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  border: 1px solid rgba(255,255,255,0.03);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  width: 320px;
+}
+.result-card h3{ margin:0; color: var(--muted); font-size:13px; }
+.big-value{
+  font-size:44px;
+  font-weight:800;
+  color: #f8fbff;
+  margin:6px 0 0;
+  text-shadow: 0 6px 20px rgba(0,255,209,0.06);
+}
+.unit{ color: #9ecbd6; font-weight:600; font-size:13px; }
+
+/* subtle animation */
+.fade-in{
+  animation: fadeInUp .5s ease both;
+}
+@keyframes fadeInUp{
+  from { opacity:0; transform: translateY(8px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+/* error */
+.error{
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:8px;
+  background: linear-gradient(90deg, rgba(255,70,70,0.08), rgba(255,30,30,0.03));
+  color: #ffdede;
+  border: 1px solid rgba(255,70,70,0.08);
+}
+
+/* Forecast area */
+.forecast-section{ margin-top:16px; display:grid; gap:18px; }
+.forecast-table table{
+  width:100%;
+  border-collapse: collapse;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+  border-radius: 10px;
+  overflow: hidden;
+}
+.forecast-table th, .forecast-table td{
+  padding: 12px 14px;
+  text-align:center;
+  font-weight:600;
+  color: #dff7ef;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.forecast-table thead th{
+  background: linear-gradient(90deg, rgba(122,50,255,0.06), rgba(0,255,209,0.03));
+  color: white;
+  font-size:13px;
+}
+
+/* chart container */
+.forecast-chart{
+  margin-top:12px;
+  padding: 18px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 8px 26px rgba(2,8,22,0.5);
+}
+
+/* ---------- Big Forecast Plot Styles ---------- */
+.big-forecast-chart-wrapper {
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  border: 1px solid rgba(255,255,255,0.035);
+  box-shadow: 0 8px 26px rgba(2,8,22,0.55);
+}
+
+/* Make small forecast chart a little tighter */
+.forecast-chart.small {
+  margin-top: 12px;
+}
+
+/* Make legend appear in nice color */
+.recharts-legend-item-text {
+  fill: #dff7ef;
+}
+
+/* Responsive reductions */
+@media (max-width: 980px) {
+  .big-forecast-chart-wrapper {
+    height: auto;
+    padding: 12px;
+  }
+}
+
+
+/* responsive */
+@media (max-width: 980px){
+  .inputs-row{ flex-direction: column; }
+  .result-card{ width: 100%; }
+  .header{ flex-direction: column; align-items:flex-start; gap:8px; }
+  .main-title{ font-size:28px; }
+}
+
+/* footer */
+.footer{
+  margin-top: 28px;
+  color: var(--muted);
+  text-align:center;
+  font-size:13px;
+}
+
+/* small utilities */
+.table-compact td, .table-compact th { padding:8px 10px; }
+
+/* tiny glowing accent line under header */
+.header::after{
+  content: "";
+  display:block;
+  height:6px;
+  width:120px;
+  border-radius: 6px;
+  margin-top:12px;
+  background: linear-gradient(90deg, rgba(122,50,255,0.9), rgba(0,255,209,0.9));
+  box-shadow: 0 8px 30px rgba(122,50,255,0.08);
+  opacity:0.85;
+}
