@@ -1,0 +1,167 @@
+import React from 'react';
+import { Card } from 'react-bootstrap';
+import Plotly from 'plotly.js';
+import createPlotlyComponent from 'react-plotly.js/factory';
+import { format, parseISO } from 'date-fns';
+import '../../styles/SimpleForecast.css';
+
+// Create Plot component with proper typing
+const Plot = createPlotlyComponent(Plotly);
+
+type PlotlyScatterData = Partial<Plotly.ScatterData>;
+
+// Type for Plotly data
+type PlotlyDataPoint = {
+  x: any[];
+  y: any[];
+  type?: 'scatter' | 'bar' | 'line' | 'box';
+  mode?: 'lines' | 'markers' | 'lines+markers' | 'text' | 'none';
+  name?: string;
+  line?: {
+    color?: string;
+    width?: number;
+    dash?: 'solid' | 'dot' | 'dash' | 'longdash' | 'dashdot' | 'longdashdot';
+  };
+  fill?: 'none' | 'tozeroy' | 'tozerox' | 'tonexty' | 'tonextx' | 'toself' | 'tonext';
+  fillcolor?: string;
+  showlegend?: boolean;
+  marker?: {
+    size?: number;
+    color?: string;
+  };
+  hoverinfo?: string;
+};
+
+export interface ForecastData {
+  date: string;
+  yield: number;
+  confidence_lower: number;
+  confidence_upper: number;
+}
+
+interface SimpleForecastProps {
+  forecastData: ForecastData[];
+  cropType: string;
+  showResults: boolean;
+}
+
+const SimpleForecast: React.FC<SimpleForecastProps> = ({ 
+  forecastData = [], 
+  cropType = 'Crop',
+  showResults = false 
+}) => {
+  if (!showResults || !forecastData.length) {
+    return null;
+  }
+
+  // Prepare data for the chart
+  const chartData: PlotlyDataPoint[] = [
+    {
+      x: forecastData.map(d => format(parseISO(d.date), 'MMM d')),
+      y: forecastData.map(d => d.yield),
+      type: 'scatter',
+      mode: 'lines+markers',
+      name: 'Predicted Yield',
+      line: { color: '#4CAF50', width: 3 },
+      marker: { size: 8 }
+    },
+    {
+      x: [
+        ...forecastData.map(d => format(parseISO(d.date), 'MMM d')), 
+        ...forecastData.map(d => format(parseISO(d.date), 'MMM d')).reverse()
+      ],
+      y: [
+        ...forecastData.map(d => d.confidence_upper), 
+        ...forecastData.map(d => d.confidence_lower).reverse()
+      ],
+      fill: 'toself',
+      fillcolor: 'rgba(76, 175, 80, 0.2)',
+      type: 'scatter',
+      mode: 'lines',
+      line: { width: 0 },
+      showlegend: false,
+      hoverinfo: 'none',
+      name: 'Confidence Interval'
+    }
+  ];
+
+  const chartLayout = {
+    title: {
+      text: `${cropType} Yield Forecast`,
+      font: { size: 18 }
+    },
+    xaxis: {
+      title: { text: 'Date' },
+      type: 'category' as const
+    },
+    yaxis: {
+      title: { text: 'Yield (tons/ha)' },
+      rangemode: 'tozero' as const
+    },
+    showlegend: true,
+    height: 400,
+    margin: {
+      l: 60,
+      r: 20,
+      b: 60,
+      t: 40,
+      pad: 4
+    },
+    paper_bgcolor: 'transparent',
+    plot_bgcolor: 'transparent'
+  };
+
+  // Prepare data for the table
+  const tableData = forecastData.map((item, index) => ({
+    date: format(parseISO(item.date), 'MMM d, yyyy'),
+    yield: item.yield.toFixed(2),
+    confidence: `${item.confidence_lower.toFixed(2)} - ${item.confidence_upper.toFixed(2)}`,
+    key: `forecast-${index}`
+  }));
+
+  return (
+    <div className="mt-4">
+      <h3 className="mb-3">{cropType} Yield Forecast</h3>
+      
+      <Card className="mb-4">
+        <Card.Body>
+          <div className="forecast-chart">
+            <Plot
+              data={chartData}
+              layout={chartLayout}
+              config={{ displayModeBar: false }}
+            />
+          </div>
+        </Card.Body>
+      </Card>
+
+      <Card>
+        <Card.Body>
+          <h4 className="mb-3">Forecast Details</h4>
+          <div className="table-responsive">
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Predicted Yield (tons/ha)</th>
+                  <th>Confidence Interval</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tableData.map((row) => (
+                  <tr key={row.key}>
+                    <td>{row.date}</td>
+                    <td>{row.yield}</td>
+                    <td>{row.confidence}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card.Body>
+      </Card>
+    </div>
+  );
+};
+
+export default SimpleForecast;

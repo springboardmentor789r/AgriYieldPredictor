@@ -1,0 +1,324 @@
+.simple-forecast-container {
+  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  max-width: 1200px;
+}
+
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 2.2rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.forecast-form {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  border: none;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.form-control, .form-select {
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  height: auto;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #4361ee;
+  box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.25);
+}
+
+.forecast-btn {
+  background: linear-gradient(45deg, #4361ee, #3a0ca3);
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+}
+
+.forecast-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+  color: white;
+}
+
+.forecast-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.results-section {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  border: none;
+  overflow: hidden;
+}
+
+.results-title {
+  color: #2b2d42;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 30px;
+  border: 1px solid #e9ecef;
+}
+
+.stats-summary {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid #e9ecef;
+}
+
+.stats-summary h5 {
+  color: #2b2d42;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #4361ee;
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.stat-unit {
+  font-size: 0.8rem;
+  color: #adb5bd;
+  font-weight: 500;
+}
+
+.forecast-table {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.forecast-table h5 {
+  color: #2b2d42;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.forecast-data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px #e9ecef;
+}
+
+.forecast-data-table th {
+  background-color: #4361ee;
+  color: white;
+  font-weight: 500;
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.forecast-data-table td {
+  padding: 12px 15px;
+  border-top: 1px solid #e9ecef;
+  vertical-align: middle;
+}
+
+.forecast-data-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.forecast-data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Loading spinner */
+.spinner-border {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-width: 0.15em;
+  margin-right: 8px;
+  vertical-align: text-top;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .main-container {
+    padding: 25px 20px;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  
+  .forecast-form {
+    padding: 25px 20px;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .simple-forecast-container {
+    padding: 15px 10px;
+  }
+  
+  .main-container {
+    margin: 10px;
+    padding: 20px 15px;
+  }
+  
+  .title {
+    font-size: 1.6rem;
+  }
+  
+  .form-control, .form-select {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+  
+  .forecast-btn {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .results-section {
+    margin-top: 20px;
+  }
+  
+  .chart-container {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .stat-card {
+    padding: 15px 10px;
+  }
+  
+  .stat-value {
+    font-size: 1.4rem;
+  }
+  
+  .forecast-table {
+    padding: 15px 10px;
+  }
+  
+  .forecast-data-table th,
+  .forecast-data-table td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .title {
+    font-size: 1.4rem;
+  }
+  
+  .subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+  }
+  
+  .results-title {
+    font-size: 1.3rem;
+  }
+  
+  .stat-value {
+    font-size: 1.2rem;
+  }
+  
+  .stat-label, .stat-unit {
+    font-size: 0.8rem;
+  }
+}

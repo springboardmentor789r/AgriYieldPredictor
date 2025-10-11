@@ -1,0 +1,48 @@
+.nav-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-btn {
+  background: #28a745;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.nav-btn:hover {
+  background: #218838;
+  transform: translateY(-2px);
+  color: white;
+  text-decoration: none;
+}
+
+.nav-btn i {
+  margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-buttons {
+    position: static;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 0 15px;
+  }
+  
+  .nav-btn {
+    padding: 8px 15px;
+    font-size: 12px;
+  }
+}

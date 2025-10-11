@@ -1,0 +1,276 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Container, 
+  Row, 
+  Col, 
+  Button, 
+  Card, 
+  Spinner,
+  Form
+} from 'react-bootstrap';
+import SimpleForecast from '../SimpleForecast/SimpleForecast';
+import './CropPrediction.css';
+
+// Form options for dropdowns
+const formOptions = {
+  soilTypes: ['Sandy', 'Loamy', 'Clay', 'Silt', 'Peaty', 'Chalky'],
+  cropTypes: ['Rice', 'Wheat', 'Maize', 'Barley', 'Sugarcane', 'Cotton', 'Jute', 'Groundnut', 'Pulses'],
+  weatherConditions: ['Sunny', 'Cloudy', 'Rainy', 'Stormy', 'Foggy']
+};
+
+const CropPrediction = () => {
+  const [formData, setFormData] = useState({
+    temperature: '',
+    rainfall: '',
+    humidity: '',
+    soilType: 'Sandy',
+    weatherCondition: 'Sunny',
+    cropType: 'Wheat',
+    forecastDate: new Date().toISOString().split('T')[0],
+  });
+  
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
+  const [forecastData, setForecastData] = useState([]);
+
+  useEffect(() => {
+    // Set default forecast date to today
+    const today = new Date().toISOString().split('T')[0];
+    setFormData(prev => ({
+      ...prev,
+      forecastDate: today
+    }));
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      // Mock prediction logic
+      const baseYield = 7.5; // Base yield in tons/hectare
+      const tempFactor = 0.9 + (Math.random() * 0.2); // 0.9-1.1
+      const rainFactor = 0.9 + (Math.random() * 0.2); // 0.9-1.1
+      const humidityFactor = 0.9 + (Math.random() * 0.2); // 0.9-1.1
+      
+      const predictedYield = baseYield * tempFactor * rainFactor * humidityFactor;
+      
+      setResult(predictedYield);
+      setLoading(false);
+    }, 1000);
+  };
+
+  return (
+    <Container className="py-4">
+      <h2 className="mb-4">Crop Yield Prediction</h2>
+      <Row>
+        <Col lg={6}>
+          <Card className="mb-4">
+            <Card.Body>
+              <Card.Title>Input Parameters</Card.Title>
+              <Form onSubmit={handleSubmit}>
+                <Row className="mb-3">
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Temperature (°C)</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="temperature"
+                        value={formData.temperature}
+                        onChange={handleInputChange}
+                        placeholder="e.g., 25"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Rainfall (mm)</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="rainfall"
+                        value={formData.rainfall}
+                        onChange={handleInputChange}
+                        placeholder="e.g., 120"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Row className="mb-3">
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Humidity (%)</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="humidity"
+                        value={formData.humidity}
+                        onChange={handleInputChange}
+                        placeholder="e.g., 65"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Soil Type</Form.Label>
+                      <Form.Select
+                        name="soilType"
+                        value={formData.soilType}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        {formOptions.soilTypes.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Row className="mb-3">
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Weather Condition</Form.Label>
+                      <Form.Select
+                        name="weatherCondition"
+                        value={formData.weatherCondition}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        {formOptions.weatherConditions.map((condition) => (
+                          <option key={condition} value={condition}>
+                            {condition}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Crop Type</Form.Label>
+                      <Form.Select
+                        name="cropType"
+                        value={formData.cropType}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        {formOptions.cropTypes.map((crop) => (
+                          <option key={crop} value={crop}>
+                            {crop}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Form.Group className="mb-4">
+                  <Form.Label>Forecast Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="forecastDate"
+                    value={formData.forecastDate}
+                    onChange={handleInputChange}
+                    min={new Date().toISOString().split('T')[0]}
+                    required
+                  />
+                </Form.Group>
+
+                <Button 
+                  variant="primary" 
+                  type="submit" 
+                  className="w-100"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        className="me-2"
+                      />
+                      Predicting...
+                    </>
+                  ) : (
+                    'Predict Yield'
+                  )}
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+
+          {/* Simple Forecast Section */}
+          <Card>
+            <Card.Header>
+              <h5 className="mb-0">Yield Forecast</h5>
+            </Card.Header>
+            <Card.Body>
+              <SimpleForecast 
+                forecastData={[
+                  { date: '2025-10-01', yield: 7.2 },
+                  { date: '2025-10-08', yield: 7.5 },
+                  { date: '2025-10-15', yield: 7.3 },
+                  { date: '2025-10-22', yield: 7.1 },
+                  { date: '2025-10-29', yield: 7.4 },
+                  { date: '2025-11-05', yield: 7.6 },
+                  { date: '2025-11-12', yield: 7.8 }
+                ]}
+                cropType={formData.cropType}
+                showResults={true}
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={6}>
+          {result !== null && (
+            <Card className="mb-4">
+              <Card.Body>
+                <Card.Title>Prediction Result</Card.Title>
+                <div className="text-center py-4">
+                  <h3>Predicted Yield</h3>
+                  <div className="display-4 text-primary fw-bold">
+                    {result.toFixed(2)} <small className="text-muted">tons/hectare</small>
+                  </div>
+                  <p className="text-muted mt-2">
+                    Based on current conditions and historical data
+                  </p>
+                </div>
+
+                <div className="mt-3">
+                  <h5>Input Summary</h5>
+                  <ul className="list-unstyled">
+                    <li><strong>Crop:</strong> {formData.cropType}</li>
+                    <li><strong>Soil Type:</strong> {formData.soilType}</li>
+                    <li><strong>Temperature:</strong> {formData.temperature}°C</li>
+                    <li><strong>Rainfall:</strong> {formData.rainfall} mm</li>
+                    <li><strong>Humidity:</strong> {formData.humidity}%</li>
+                    <li><strong>Weather:</strong> {formData.weatherCondition}</li>
+                  </ul>
+                </div>
+              </Card.Body>
+            </Card>
+          )}
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default CropPrediction;

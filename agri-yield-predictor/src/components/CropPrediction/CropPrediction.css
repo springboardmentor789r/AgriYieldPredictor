@@ -1,0 +1,170 @@
+/* Main container styling */
+.main-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+/* Title styling */
+.title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 2.2rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+/* Form card styling */
+.prediction-form {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  border: none;
+}
+
+/* Form elements */
+.form-label {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.form-control, 
+.form-select {
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 12px 15px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  height: 48px;
+}
+
+.form-control:focus, 
+.form-select:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+/* Buttons */
+.predict-btn {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.predict-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+  color: white;
+}
+
+.predict-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Result card */
+.result-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  margin-top: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.result-value {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.result-label {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* Forecast section */
+.forecast-section {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.forecast-btn {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.forecast-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  color: white;
+}
+
+.forecast-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-container {
+    margin: 10px;
+    padding: 15px;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .prediction-form,
+  .forecast-section {
+    padding: 20px;
+  }
+  
+  .predict-btn,
+  .forecast-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

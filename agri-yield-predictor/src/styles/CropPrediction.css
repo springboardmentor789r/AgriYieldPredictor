@@ -1,0 +1,385 @@
+.crop-prediction-container {
+  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  max-width: 1200px;
+}
+
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 2.2rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.prediction-form {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  border: none;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.form-control, .form-select {
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  height: auto;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.predict-btn {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  border: none;
+  color: white;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+}
+
+.predict-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+  color: white;
+}
+
+.predict-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Forecast Card Styles */
+.forecast-card {
+  border-radius: 15px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.forecast-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 1.25rem 1.5rem;
+}
+
+.forecast-header h3 {
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.forecast-summary {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 1.25rem 1.5rem;
+  margin: -1px -1px 0 -1px;
+  border-radius: 4px 4px 0 0;
+}
+
+.forecast-summary-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-label {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+.summary-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+  display: flex;
+  align-items: center;
+}
+
+.trend-up {
+  color: #28a745;
+  margin-left: 0.25rem;
+}
+
+.forecast-chart {
+  padding: 1.5rem;
+  height: 200px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.forecast-table {
+  overflow-x: auto;
+}
+
+.forecast-table .table {
+  margin-bottom: 0;
+}
+
+.forecast-table th {
+  font-weight: 600;
+  color: #495057;
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #e9ecef;
+  padding: 0.75rem 1.5rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.forecast-table td {
+  padding: 1rem 1.5rem;
+  vertical-align: middle;
+  border-color: #e9ecef;
+  color: #495057;
+}
+
+.confidence-high {
+  color: #28a745;
+  font-weight: 500;
+}
+
+.confidence-medium {
+  color: #ffc107;
+  font-weight: 500;
+}
+
+.confidence-low {
+  color: #dc3545;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .forecast-summary {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .forecast-summary-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .summary-label {
+    margin-bottom: 0;
+    margin-right: 1rem;
+  }
+}
+
+.result-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  margin-top: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.result-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.result-value {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 20px 0;
+  line-height: 1.2;
+}
+
+.result-unit {
+  font-size: 1.5rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.result-label {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+.forecast-section {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  border: 1px solid #e9ecef;
+}
+
+.forecast-section h3 {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.forecast-section p {
+  color: #6c757d;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.forecast-btn {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.forecast-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  color: white;
+}
+
+.forecast-btn i {
+  margin-right: 8px;
+}
+
+/* Loading spinner */
+.spinner-border {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-width: 0.15em;
+  margin-right: 8px;
+  vertical-align: text-top;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .main-container {
+    padding: 25px 20px;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  
+  .prediction-form {
+    padding: 25px 20px;
+  }
+  
+  .result-value {
+    font-size: 2.8rem;
+  }
+  
+  .result-unit {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .crop-prediction-container {
+    padding: 15px 10px;
+  }
+  
+  .main-container {
+    margin: 10px;
+    padding: 20px 15px;
+  }
+  
+  .title {
+    font-size: 1.6rem;
+  }
+  
+  .form-control, .form-select {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+  
+  .predict-btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+  
+  .result-card {
+    padding: 20px 15px;
+  }
+  
+  .result-value {
+    font-size: 2.2rem;
+  }
+  
+  .forecast-section {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .title {
+    font-size: 1.4rem;
+  }
+  
+  .subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+  }
+  
+  .result-value {
+    font-size: 1.8rem;
+  }
+  
+  .result-unit {
+    font-size: 1rem;
+  }
+}
