@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Yield Prediction & Forecasting System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .section.primary {
+            border-left: 5px solid #28a745;
+        }
+
+        .section.secondary {
+            border-left: 5px solid #17a2b8;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .form-group input.invalid {
+            border-color: #e74c3c;
+        }
+
+        .form-group .validation-error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #2c3e50;
+        }
+
+        .result {
+            background: #e8f5e8;
+            color: #2d5a2d;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #4caf50;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #c33;
+            margin: 15px 0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .input-hint {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌾 Crop Yield Prediction & Forecasting System</h1>
+            <p>Machine Learning Prediction and Time Series Analysis for Agricultural Data</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Crop Yield Prediction -->
+            <div class="section primary">
+                <h2>🎯 Crop Yield Prediction</h2>
+
+                <form id="yieldForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="temperature">Temperature (°C) <span class="required">*</span></label>
+                            <input type="number" id="temperature" name="temperature" step="0.1" min="-10" max="50" required placeholder="e.g., 25">
+                            <div class="input-hint">Range: -10°C to 50°C (typical: 15-35°C for crops)</div>
+                            <div id="temperature-error" class="validation-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="rainfall">Rainfall (mm) <span class="required">*</span></label>
+                            <input type="number" id="rainfall" name="rainfall" step="0.1" min="0" max="3000" required placeholder="e.g., 800">
+                            <div class="input-hint">Range: 0-3000mm annually (typical: 300-1500mm for most crops)</div>
+                            <div id="rainfall-error" class="validation-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="humidity">Humidity (%) <span class="required">*</span></label>
+                        <input type="number" id="humidity" name="humidity" step="0.1" min="0" max="100" required placeholder="e.g., 65">
+                        <div class="input-hint">Range: 0-100% (optimal: 40-80% for most crops)</div>
+                        <div id="humidity-error" class="validation-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="crop_type">Crop Type <span class="required">*</span></label>
+                        <select id="crop_type" name="crop_type" required>
+                            <option value="">Select Crop Type...</option>
+                        </select>
+                        <div id="crop_type-error" class="validation-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="soil_type">Soil Type <span class="required">*</span></label>
+                        <select id="soil_type" name="soil_type" required>
+                            <option value="">Select Soil Type...</option>
+                        </select>
+                        <div id="soil_type-error" class="validation-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weather_condition">Weather Condition <span class="required">*</span></label>
+                        <select id="weather_condition" name="weather_condition" required>
+                            <option value="">Select Weather...</option>
+                        </select>
+                        <div id="weather_condition-error" class="validation-error"></div>
+                    </div>
+
+                    <button type="submit" class="btn" id="predictBtn">🎯 Predict Crop Yield</button>
+                </form>
+
+                <div id="yieldResult"></div>
+            </div>
+
+            <!-- Crop Yield Forecasting -->
+            <div class="section secondary">
+                <h2>📈 Fast Crop Yield Forecasting</h2>
+                <p>Quick time series prediction with optimized processing - results in under 3 seconds</p>
+
+                <form id="futurePredictionForm">
+                    <div class="form-group">
+                        <label for="days_to_predict">How many days ahead to predict crop yield? <span class="required">*</span></label>
+                        <input type="number" id="days_to_predict" name="days_to_predict" min="1" max="365" value="30" placeholder="e.g., 30" required>
+                        <div class="input-hint">Range: 1-365 days (recommended: 7-90 days for optimal accuracy)</div>
+                        <div id="days_to_predict-error" class="validation-error"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-secondary" id="forecastBtn">🔮 Generate Fast Forecast</button>
+                </form>
+
+                <div id="futurePredictionResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Input validation functions
+        function validateInput(inputId, min, max, errorMessage) {
+            const input = document.getElementById(inputId);
+            const errorDiv = document.getElementById(inputId + '-error');
+            const value = parseFloat(input.value);
+
+            if (isNaN(value) || value < min || value > max) {
+                input.classList.add('invalid');
+                errorDiv.textContent = errorMessage;
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                errorDiv.textContent = '';
+                return true;
+            }
+        }
+
+        function validateCropYieldForm() {
+            let isValid = true;
+
+            // Temperature validation
+            if (!validateInput('temperature', -10, 50, 'Temperature must be between -10°C and 50°C')) {
+                isValid = false;
+            }
+
+            // Rainfall validation
+            if (!validateInput('rainfall', 0, 3000, 'Rainfall must be between 0mm and 3000mm')) {
+                isValid = false;
+            }
+
+            // Humidity validation
+            if (!validateInput('humidity', 0, 100, 'Humidity must be between 0% and 100%')) {
+                isValid = false;
+            }
+
+            // Dropdown validations
+            const selects = ['crop_type', 'soil_type', 'weather_condition'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                const errorDiv = document.getElementById(selectId + '-error');
+                if (!select.value) {
+                    select.classList.add('invalid');
+                    errorDiv.textContent = 'Please select a value';
+                    isValid = false;
+                } else {
+                    select.classList.remove('invalid');
+                    errorDiv.textContent = '';
+                }
+            });
+
+            return isValid;
+        }
+
+        function validateTimeSeriesForm() {
+            const days = parseInt(document.getElementById('days_to_predict').value);
+            const errorDiv = document.getElementById('days_to_predict-error');
+
+            if (isNaN(days) || days < 1 || days > 365) {
+                document.getElementById('days_to_predict').classList.add('invalid');
+                errorDiv.textContent = 'Days to predict must be between 1 and 365';
+                return false;
+            } else {
+                document.getElementById('days_to_predict').classList.remove('invalid');
+                errorDiv.textContent = '';
+                return true;
+            }
+        }
+
+        // Add real-time validation
+        document.addEventListener('DOMContentLoaded', function () {
+            // Load dropdown options
+            loadCropTypes();
+            loadSoilTypes();
+            loadWeatherConditions();
+
+            // Add real-time validation for number inputs
+            ['temperature', 'rainfall', 'humidity'].forEach(inputId => {
+                document.getElementById(inputId).addEventListener('input', function() {
+                    const ranges = {
+                        'temperature': {min: -10, max: 50, msg: 'Temperature must be between -10°C and 50°C'},
+                        'rainfall': {min: 0, max: 3000, msg: 'Rainfall must be between 0mm and 3000mm'},
+                        'humidity': {min: 0, max: 100, msg: 'Humidity must be between 0% and 100%'}
+                    };
+                    validateInput(inputId, ranges[inputId].min, ranges[inputId].max, ranges[inputId].msg);
+                });
+            });
+
+            // Add real-time validation for time series input
+            document.getElementById('days_to_predict').addEventListener('input', validateTimeSeriesForm);
+
+        });
+
+        // Load dropdown options
+        async function loadCropTypes() {
+            try {
+                const response = await fetch('/crop_types');
+                const cropTypes = await response.json();
+                const select = document.getElementById('crop_type');
+                cropTypes.forEach(crop => {
+                    const option = document.createElement('option');
+                    option.value = crop;
+                    option.textContent = crop;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading crop types:', error);
+            }
+        }
+
+        async function loadSoilTypes() {
+            try {
+                const response = await fetch('/soil_types');
+                const soilTypes = await response.json();
+                const select = document.getElementById('soil_type');
+                soilTypes.forEach(soil => {
+                    const option = document.createElement('option');
+                    option.value = soil;
+                    option.textContent = soil;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading soil types:', error);
+            }
+        }
+
+        async function loadWeatherConditions() {
+            try {
+                const response = await fetch('/weather_conditions');
+                const weatherConditions = await response.json();
+                const select = document.getElementById('weather_condition');
+                weatherConditions.forEach(weather => {
+                    const option = document.createElement('option');
+                    option.value = weather;
+                    option.textContent = weather;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading weather conditions:', error);
+            }
+        }
+
+        // Handle crop yield prediction form submission
+        document.getElementById('yieldForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (!validateCropYieldForm()) {
+                return;
+            }
+
+            const predictBtn = document.getElementById('predictBtn');
+            predictBtn.disabled = true;
+            predictBtn.textContent = '🔄 Predicting...';
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            // Convert numeric fields
+            ['temperature', 'rainfall', 'humidity'].forEach(field => {
+                data[field] = parseFloat(data[field]);
+            });
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('yieldResult').innerHTML = `
+                        <div class="result">
+                            <h3>🎯 Prediction Result</h3>
+                            <p><strong>Predicted Yield:</strong> ${result.predicted_yield.toFixed(2)} kg/hectare</p>
+                            <p><strong>Input Parameters:</strong></p>
+                            <ul>
+                                <li>Temperature: ${data.temperature}°C</li>
+                                <li>Rainfall: ${data.rainfall}mm</li>
+                                <li>Humidity: ${data.humidity}%</li>
+                                <li>Crop: ${data.crop_type}</li>
+                                <li>Soil: ${data.soil_type}</li>
+                                <li>Weather: ${data.weather_condition}</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(result.detail || 'Prediction failed');
+                }
+            } catch (error) {
+                document.getElementById('yieldResult').innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                predictBtn.disabled = false;
+                predictBtn.textContent = '🎯 Predict Crop Yield';
+            }
+        });
+
+        // Handle future prediction form submission
+        document.getElementById('futurePredictionForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            console.log('Future prediction form submitted'); // Debug log
+
+            if (!validateTimeSeriesForm()) {
+                console.log('Validation failed'); // Debug log
+                return;
+            }
+
+            const forecastBtn = document.getElementById('forecastBtn');
+            const originalText = forecastBtn.textContent;
+            forecastBtn.disabled = true;
+            forecastBtn.textContent = '⚡ Processing...';
+
+            const resultDiv = document.getElementById('futurePredictionResult');
+            resultDiv.innerHTML = `<div style="text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px;">
+                ⚡ Fast forecasting in progress...
+            </div>`;
+
+            const requestData = {
+                data_source: "time_series_data.csv",
+                target_variable: "Yield",
+                days_to_predict: parseInt(document.getElementById('days_to_predict').value)
+            };
+
+            console.log('Request data:', requestData); // Debug log
+
+            try {
+                // Always use fast prediction endpoint
+                const endpoint = '/timeseries/predict_future';
+                console.log(`Sending request to ${endpoint}`); // Debug log
+                
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                console.log('Response status:', response.status); // Debug log
+                const result = await response.json();
+                console.log('Response result:', result); // Debug log
+
+                if (response.ok && result.status === 'success') {
+                    displayFuturePredictionResults(result);
+                } else {
+                    throw new Error(result.error_message || result.detail || `Server error: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Forecasting error:', error); // Debug log
+                showTimeSeriesError(`Prediction failed: ${error.message}`);
+            } finally {
+                forecastBtn.disabled = false;
+                forecastBtn.textContent = originalText;
+            }
+        });
+
+        // Display future prediction results with optimization details
+        function displayFuturePredictionResults(result) {
+            const resultDiv = document.getElementById('futurePredictionResult');
+            
+            // Handle both old format (result.predictions) and new fast format (result.forecast)
+            let predictions = [];
+            let isNewFormat = false;
+            
+            if (result.forecast && result.forecast.values) {
+                // New fast analyzer format
+                isNewFormat = true;
+                const forecastValues = result.forecast.values;
+                const lowerCI = result.forecast.lower_confidence || [];
+                const upperCI = result.forecast.upper_confidence || [];
+                
+                predictions = forecastValues.map((value, index) => {
+                    const today = new Date();
+                    const futureDate = new Date(today);
+                    futureDate.setDate(today.getDate() + index + 1);
+                    
+                    return {
+                        day_number: index + 1,
+                        date: futureDate.toISOString().split('T')[0],
+                        day: futureDate.toLocaleDateString('en-US', { weekday: 'short' }),
+                        predicted_crop_yield: value.toFixed(2),
+                        confidence_score: 0.85, // Default confidence for fast mode
+                        forecast_type: 'fast',
+                        lower_ci: lowerCI[index] || (value - 0.5),
+                        upper_ci: upperCI[index] || (value + 0.5)
+                    };
+                });
+            } else if (result.predictions) {
+                // Old comprehensive format
+                predictions = result.predictions;
+            } else {
+                // Fallback for any other format
+                predictions = [];
+            }
+            
+            let predictionsHtml = '<h4>📅 Crop Yield Predictions:</h4><div style="max-height: 250px; overflow-y: auto;"><table style="width: 100%; border-collapse: collapse; font-size: 12px;">';
+            predictionsHtml += '<tr style="background: #f8f9fa;"><th style="padding: 5px; border: 1px solid #ddd;">Day</th><th style="padding: 5px; border: 1px solid #ddd;">Date</th><th style="padding: 5px; border: 1px solid #ddd;">Weekday</th><th style="padding: 5px; border: 1px solid #ddd;">Yield</th><th style="padding: 5px; border: 1px solid #ddd;">Confidence</th></tr>';
+            
+            predictions.forEach(pred => {
+                const typeIcon = isNewFormat ? '⚡' : (pred.forecast_type === 'direct' ? '🎯' : '📊');
+                const confidenceScore = pred.confidence_score || 0.85;
+                const confidenceColor = confidenceScore > 0.8 ? '#2e7d32' : confidenceScore > 0.6 ? '#f57c00' : '#d32f2f';
+                
+                predictionsHtml += `<tr>
+                    <td style="padding: 5px; border: 1px solid #ddd; text-align: center;">${pred.day_number}</td>
+                    <td style="padding: 5px; border: 1px solid #ddd;">${pred.date}</td>
+                    <td style="padding: 5px; border: 1px solid #ddd; font-size: 10px;">${pred.day}</td>
+                    <td style="padding: 5px; border: 1px solid #ddd; text-align: center; font-weight: bold; color: #2e7d32;">${pred.predicted_crop_yield}</td>
+                    <td style="padding: 5px; border: 1px solid #ddd; font-size: 10px; color: ${confidenceColor};">${(confidenceScore * 100).toFixed(0)}%</td>
+                </tr>`;
+            });
+            predictionsHtml += '</table></div>';
+
+            // Enhanced forecast summary with optimization details
+            const optimizationInfo = result.optimization_details || {};
+            
+            // Handle different result formats
+            let summaryHtml = '';
+            let modelInfoHtml = '';
+            let insightsHtml = '';
+            
+            if (isNewFormat) {
+                // Fast analyzer format
+                const modelInfo = result.model_params || {};
+                const accuracy = result.accuracy_metrics || {};
+                const avgYield = predictions.length > 0 ? 
+                    (predictions.reduce((sum, p) => sum + parseFloat(p.predicted_crop_yield), 0) / predictions.length).toFixed(2) : '0';
+                
+                summaryHtml = `
+                    <div style="background: #e8f5e8; padding: 15px; border-radius: 8px;">
+                        <h4>📊 Quick Forecast Summary</h4>
+                        <p><strong>Processing Time:</strong> ${result.processing_time_seconds || 0}s</p>
+                        <p><strong>Data Points:</strong> ${result.data_points || 0}</p>
+                        <p><strong>Average Predicted Yield:</strong> ${avgYield} tons/hectare</p>
+                        <p><strong>Forecast Days:</strong> ${result.forecast.forecast_days || predictions.length}</p>
+                        <p><strong>Model Performance:</strong> ${accuracy.model_performance || 'Good'}</p>
+                    </div>
+                `;
+                
+                modelInfoHtml = `
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px;">
+                        <h4>⚡ Fast Model Details</h4>
+                        <p><strong>Model:</strong> ${result.model_type || 'Fast ARIMA'}</p>
+                        <p><strong>Parameters:</strong> (${modelInfo.p || 1}, ${modelInfo.d || 1}, ${modelInfo.q || 1})</p>
+                        <p><strong>AIC Score:</strong> ${modelInfo.aic || 'N/A'}</p>
+                        <p><strong>MAE:</strong> ${accuracy.mae || 'N/A'}</p>
+                        <p><strong>RMSE:</strong> ${accuracy.rmse || 'N/A'}</p>
+                    </div>
+                `;
+                
+                insightsHtml = result.optimization_features ? 
+                    result.optimization_features.map(feature => `<li>${feature}</li>`).join('') :
+                    '<li>⚡ Fast processing completed</li><li>🎯 Simple model selection used</li><li>📊 Quick visualization generated</li>';
+                    
+            } else {
+                // Original comprehensive format
+                const forecast_summary = result.forecast_summary || {};
+                const model_info = result.model_info || {};
+                const data_summary = result.data_summary || {};
+                
+                summaryHtml = `
+                    <div style="background: #e8f5e8; padding: 15px; border-radius: 8px;">
+                        <h4>📊 Enhanced Forecast Summary</h4>
+                        <p><strong>Forecast Period:</strong> ${forecast_summary.prediction_start_date || 'N/A'} to ${forecast_summary.prediction_end_date || 'N/A'}</p>
+                        <p><strong>Average Predicted Yield:</strong> ${forecast_summary.average_predicted_yield || 'N/A'} units</p>
+                        <p><strong>Trend:</strong> ${forecast_summary.trend || 'N/A'} (${forecast_summary.trend_strength || 'N/A'})</p>
+                        <p><strong>Avg Confidence:</strong> ${forecast_summary.average_confidence ? (forecast_summary.average_confidence * 100).toFixed(1) : 'N/A'}%</p>
+                        <p><strong>Direct Forecast:</strong> ${forecast_summary.direct_forecast_days || 'N/A'} days</p>
+                    </div>
+                `;
+                
+                modelInfoHtml = `
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px;">
+                        <h4>🎯 Optimized Model Details</h4>
+                        <p><strong>Model:</strong> ${model_info.model_type || 'N/A'}</p>
+                        <p><strong>AIC Score:</strong> ${model_info.model_aic || 'N/A'}</p>
+                        <p><strong>Seasonality:</strong> ${model_info.seasonal_detected ? '✅ Detected' : '❌ None'}</p>
+                        <p><strong>Status:</strong> ${model_info.optimization_status || 'N/A'}</p>
+                        <p><strong>Data Quality:</strong> ${data_summary.data_quality_score || 'N/A'}/1.0</p>
+                    </div>
+                `;
+                
+                insightsHtml = result.insights ? 
+                    result.insights.map(insight => `<li>${insight}</li>`).join('') :
+                    '<li>Comprehensive analysis completed</li>';
+            }
+            
+            resultDiv.innerHTML = `
+                <div class="result">
+                    <h3>🌾 Crop Yield Forecast Results</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        ${summaryHtml}
+                        ${modelInfoHtml}
+                    </div>
+
+                    ${predictionsHtml}
+                    
+                    <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 5px solid #ffc107;">
+                        <h4>💡 ${isNewFormat ? 'Speed Optimization' : 'Enhanced Insights & Optimization'} Details:</h4>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            ${insightsHtml}
+                        </ul>
+                    </div>
+                    
+                    <p style="margin-top: 15px; font-size: 12px; color: #666;">
+                        <strong>📝 Note:</strong> This ${isNewFormat ? 'fast' : 'optimized'} forecast uses ${isNewFormat ? 'streamlined' : 'advanced'} time series modeling 
+                        for ${isNewFormat ? 'quick' : 'maximum'} accuracy.
+                    </p>
+                </div>
+            `;
+        }
+
+        function showTimeSeriesError(message) {
+            document.getElementById('futurePredictionResult').innerHTML = `
+                <div class="error">
+                    <h3>❌ Forecasting Error</h3>
+                    <p><strong>Issue:</strong> ${message}</p>
+                    <div style="margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 5px; border-left: 3px solid #ffc107;">
+                        <h4>💡 Troubleshooting Tips:</h4>
+                        <ul style="margin: 5px 0; padding-left: 20px; font-size: 13px;">
+                            <li>Make sure the server is running (check browser console for errors)</li>
+                            <li>Try a smaller number of days (7-30 days work best)</li>
+                            <li>Check if the time_series_data.csv file exists</li>
+                            <li>Refresh the page and try again</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
