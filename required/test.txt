@@ -1,0 +1,72 @@
+# Testing payloads for POST /predict
+# Usage example (PowerShell):
+#   curl -Method POST -Uri http://localhost:8000/predict -ContentType 'application/json' -Body '{JSON_BELOW}'
+
+
+# 1) Same crop with different other inputs (3 cases) — crop_type: "Rice"
+{
+  "temperature": 25.5,
+  "humidity": 65.0,
+  "soil_type": "Loamy",
+  "rainfall": 120.0,
+  "weather_condition": "Sunny",
+  "crop_type": "Rice"
+}
+{
+  "temperature": 19.8,
+  "humidity": 72.0,
+  "soil_type": "Sandy",
+  "rainfall": 310.0,
+  "weather_condition": "Rainy",
+  "crop_type": "Rice"
+}
+{
+  "temperature": 31.2,
+  "humidity": 55.0,
+  "soil_type": "Clay",
+  "rainfall": 80.0,
+  "weather_condition": "Cloudy",
+  "crop_type": "Rice"
+}
+
+# 2) All different (5 cases)
+{
+  "temperature": 22.0,
+  "humidity": 58.0,
+  "soil_type": "Silty",
+  "rainfall": 200.0,
+  "weather_condition": "Sunny",
+  "crop_type": "Corn"
+}
+{
+  "temperature": 28.5,
+  "humidity": 68.0,
+  "soil_type": "Peaty",
+  "rainfall": 650.0,
+  "weather_condition": "Rainy",
+  "crop_type": "Wheat"
+}
+{
+  "temperature": 16.8,
+  "humidity": 81.0,
+  "soil_type": "Sandy",
+  "rainfall": 150.0,
+  "weather_condition": "Stormy",
+  "crop_type": "Barley"
+}
+{
+  "temperature": 30.1,
+  "humidity": 49.0,
+  "soil_type": "Loamy",
+  "rainfall": 420.0,
+  "weather_condition": "Cloudy",
+  "crop_type": "Soybeans"
+}
+{
+  "temperature": 24.3,
+  "humidity": 62.0,
+  "soil_type": "Clay",
+  "rainfall": 520.0,
+  "weather_condition": "Sunny",
+  "crop_type": "Rice"
+} 
