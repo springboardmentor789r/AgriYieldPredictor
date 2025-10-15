@@ -1,0 +1,8 @@
+# Ignore Python junk
+_pycache_/
+*.pyc
+
+# Ignore Node.js junk
+node_modules/
+dist/
+.env
