@@ -1,0 +1,56 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Model files
+*.pkl
+!backend/models/final_yield_pipeline.pkl   # keep only this pkl file
+
+# Environments
+*.env
+.venv/
+myenv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Build
+build/
+
+# Test / Coverage
+.pytest_cache/
+*.coverage
+.coverage*
+
+# Lock files (keep for reproducibility — comment out if not needed)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
